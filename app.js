@@ -1,9 +1,6 @@
 var express = require('express');
 var Steam = require('steam');
 
-var steamClient = new Steam.SteamClient();
-var steamUser = new Steam.SteamUser(steamClient);
-
 var app = express();
 
 app.use(function (req, res, next) {
@@ -12,6 +9,8 @@ app.use(function (req, res, next) {
 });
 
 app.get('/convert/:username-:password', async (req, res) => {
+  var steamClient = new Steam.SteamClient();
+  var steamUser = new Steam.SteamUser(steamClient);
   console.log('a Attempting to login with username: ' + req.params.username + ' password: ' + req.params.password);
   steamClient.connect();
   steamClient.on('connected', function () {
@@ -20,7 +19,10 @@ app.get('/convert/:username-:password', async (req, res) => {
       password: req.params.password
     });
   });
-  steamClient.on('logOnResponse', function (log) {res.end(JSON.stringify(log))});
+  steamClient.on('logOnResponse', function (log) {
+    res.end(JSON.stringify(log));
+    steamClient.disconnect();
+  });
 });
 
 app.listen(3000);
