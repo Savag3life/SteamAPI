@@ -20,8 +20,13 @@ app.get('/convert/:username-:password', async (req, res) => {
     });
   });
   steamClient.on('logOnResponse', function (log) {
-    res.end(JSON.stringify(log));
-    steamClient.disconnect();
+    if (log.eresult === Steam.EResult.OK) {
+      res.end(JSON.stringify(log));
+      steamClient.disconnect();
+    } else {
+      res.end(JSON.stringify({client_supplied_steamid: 0}));
+      steamClient.disconnect();
+    }
   });
 });
 
