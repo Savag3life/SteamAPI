@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Savag3life/SteamAPI#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "steam": "^1.4.1",
     "steam-user": "^4.18.0"
   }
